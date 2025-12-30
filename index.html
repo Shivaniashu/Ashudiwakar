@@ -91,6 +91,88 @@
         .buy-btn:hover {
             background: linear-gradient(135deg, #e64a19, #ff5722);
         }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+        .checkout-form input, .checkout-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .checkout-form button {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        .checkout-form button:hover {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+        }
+        .payment-options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .payment-options button {
+            width: 30%;
+            padding: 10px;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .payment-options button:hover {
+            background: #e0e0e0;
+        }
+        .qr-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .qr-section img {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
         footer {
             background-color: #1b5e20;
             color: white;
@@ -133,6 +215,12 @@
         p {
             margin-bottom: 15px;
         }
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -163,8 +251,8 @@
             <div class="product">
                 <img src="https://i.ibb.co/wNWmqYjc/48590fa7-626f-4310-bb73-0c74fd6f4d60.jpg" alt="48590fa7-626f-4310-bb73-0c74fd6f4d60" border="0" /></a> alt="Realme Buds 3">
                 <h3>Realme Buds 3</h3>
-                <p>Wireless earbuds with great sound quality and battery life.</p>
-                <button class="buy-btn" onclick="buyProduct('Realme Buds 3')">Buy Now</button>
+                <p>Wireless earbuds with great sound quality and battery life. Price: ₹1,999</p>
+                <button class="buy-btn" onclick="openCheckout('Realme Buds 3', 1999)">Buy Now</button>
             </div>
             <div class="product">
                 <img src="https://source.unsplash.com/300x200/?spices" alt="Spices">
@@ -208,17 +296,115 @@
         </form>
     </div>
 
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Checkout - <span id="productName"></span></h2>
+            
+            <!-- Step 1: Order Details -->
+            <div id="step1" class="step active">
+                <form class="checkout-form" onsubmit="nextStep(event)">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+                    
+                    <label for="address">Delivery Address:</label>
+                    <textarea id="address" name="address" placeholder="Enter your full address" required></textarea>
+                    
+                    <p><strong>Total: ₹<span id="totalPrice"></span></strong></p>
+                    
+                    <button type="submit">Proceed to Payment</button>
+                </form>
+            </div>
+            
+            <!-- Step 2: Payment Options -->
+            <div id="step2" class="step">
+                <h3>Select Payment Method</h3>
+                <div class="payment-options">
+                    <button type="button" onclick="showQR()">UPI Payment</button>
+                </div>
+            </div>
+            
+            <!-- Step 3: QR Code -->
+            <div id="step3" class="step">
+                <h3>Scan QR Code to Pay</h3>
+                <div class="qr-section">
+                    <img src="https://i.ibb.co/whLD05Ww/1767095152212.jpg" alt="UPI QR Code">
+                    <p>Scan this QR code with your UPI app to pay ₹<span id="qrTotal"></span></p>
+                    <p>UPI ID: productsell143@axl</p>
+                    <button onclick="paymentDone()">Payment Done - Confirm Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2023 Ashu Diwakar Kirana Store. All rights reserved. | Designed by AI | Professional Grocery Services</p>
     </footer>
 
     <script>
-        function buyProduct(productName) {
-            alert(`Purchase initiated for ${productName}! Please contact us at 8853092306 or infinitemoments30@gmail.com to complete the order.`);
-            // Optional: Redirect to WhatsApp or a payment page
-            // window.location.href = "https://wa.me/918853092306?text=I want to buy " + encodeURIComponent(productName);
+        let selectedProduct = '';
+        let price = 0;
+        let quantity = 1;
+        let address = '';
+
+        function openCheckout(product, prodPrice) {
+            selectedProduct = product;
+            price = prodPrice;
+            document.getElementById('productName').textContent = product;
+            updateTotal();
+            showStep(1);
+            document.getElementById('checkoutModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
+            showStep(1); // Reset to step 1
+        }
+
+        function updateTotal() {
+            quantity = document.getElementById('quantity').value;
+            document.getElementById('totalPrice').textContent = price * quantity;
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+        }
+
+        function nextStep(event) {
+            event.preventDefault();
+            address = document.getElementById('address').value;
+            if (!address) {
+                alert('Please enter your delivery address.');
+                return;
+            }
+            showStep(2);
+        }
+
+        function showQR() {
+            document.getElementById('qrTotal').textContent = price * quantity;
+            showStep(3);
+        }
+
+        function paymentDone() {
+            alert(`Order Confirmed!\nProduct: ${selectedProduct}\nQuantity: ${quantity}\nTotal: ₹${price * quantity}\nAddress: ${address}\n\nThank you for your payment. We will process your order soon. Contact us at 8853092306 if needed.`);
+            closeModal();
+            // Redirect to home or products page
+            window.location.href = '#products';
+        }
+
+        // Update total on quantity change
+        document.getElementById('quantity').addEventListener('input', updateTotal);
+
+        // Close modal if clicked outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('checkoutModal');
+            if (event.target === modal) {
+                closeModal();
+            }
         }
     </script>
 
 </body>
-</html>
+                    </html>
