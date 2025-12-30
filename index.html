@@ -77,6 +77,20 @@
             object-fit: cover;
             border-radius: 8px;
         }
+        .buy-btn {
+            background: linear-gradient(135deg, #ff5722, #e64a19);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        .buy-btn:hover {
+            background: linear-gradient(135deg, #e64a19, #ff5722);
+        }
         footer {
             background-color: #1b5e20;
             color: white;
@@ -150,6 +164,7 @@
                 <img src="https://i.ibb.co/wNWmqYjc/48590fa7-626f-4310-bb73-0c74fd6f4d60.jpg" alt="48590fa7-626f-4310-bb73-0c74fd6f4d60" border="0" /></a> alt="Realme Buds 3">
                 <h3>Realme Buds 3</h3>
                 <p>Wireless earbuds with great sound quality and battery life.</p>
+                <button class="buy-btn" onclick="buyProduct('Realme Buds 3')">Buy Now</button>
             </div>
             <div class="product">
                 <img src="https://source.unsplash.com/300x200/?spices" alt="Spices">
@@ -197,5 +212,13 @@
         <p>&copy; 2023 Ashu Diwakar Kirana Store. All rights reserved. | Designed by AI | Professional Grocery Services</p>
     </footer>
 
+    <script>
+        function buyProduct(productName) {
+            alert(`Purchase initiated for ${productName}! Please contact us at 8853092306 or infinitemoments30@gmail.com to complete the order.`);
+            // Optional: Redirect to WhatsApp or a payment page
+            // window.location.href = "https://wa.me/918853092306?text=I want to buy " + encodeURIComponent(productName);
+        }
+    </script>
+
 </body>
-    </html>
+</html>
