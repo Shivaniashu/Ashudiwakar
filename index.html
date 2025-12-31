@@ -252,7 +252,7 @@
             <div class="product">
                 <img src="https://i.ibb.co/wNWmqYjc/48590fa7-626f-4310-bb73-0c74fd6f4d60.jpg" alt="48590fa7-626f-4310-bb73-0c74fd6f4d60" border="0" /></a> alt="Realme Buds 3">
                 <h3>Realme Buds 3</h3>
-                <p>Wireless earbuds with great sound quality and battery life. Price: ₹1,999</p>
+                <p>Wireless earbuds with great sound quality and battery life. Price: ₹889</p>
                 <button class="buy-btn" onclick="openCheckout('Realme Buds 3', 1999)">Buy Now</button>
             </div>
             <div class="product">
@@ -289,7 +289,7 @@
         <p><strong>Location:</strong> Madaripur, Kanpur Dehat, Uttar Pradesh</p>
         <p><strong>Phone:</strong> 8853092306</p>
         <p><strong>Email:</strong> infinitemoments30@gmail.com</p>
-        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <form action="https://formspree.io/f/mjgvnwbj" method="POST">
             <input type="text" name="name" placeholder="Your Name" required>
             <input type="email" name="email" placeholder="Your Email" required>
             <textarea name="message" placeholder="Your Message" required></textarea>
@@ -402,4 +402,11 @@
         // Close modal if clicked outside
         window.onclick = function(event) {
             const modal = document.getElementById('checkoutModal');
-            if (event
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+    </html>
