@@ -19,6 +19,8 @@
       background: #f6faf8;
       color: #2c3e50;
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     a {
@@ -195,7 +197,6 @@
       margin-bottom: 20px;
       transition: border-color 0.3s ease;
       resize: vertical;
-      font-family: 'Poppins', sans-serif;
     }
     form input:focus, form textarea:focus {
       border-color: #27ae60;
@@ -219,6 +220,49 @@
       background: #2ecc71;
     }
 
+    /* Owner Section */
+    .owner-section {
+      background:#eaf4ea;
+      padding: 40px 20px;
+      margin-top: 60px;
+      box-shadow: 0 8px 20px rgba(46,125,50,0.1);
+      border-radius: 12px;
+      max-width:1200px;
+      margin-left:auto;
+      margin-right:auto;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .owner-photo {
+      flex: 0 0 160px;
+      min-width: 140px;
+      text-align:center;
+    }
+    .owner-photo h3 {
+      color:#2e7d32;
+      font-weight:700;
+      font-size:1.2rem;
+      margin-bottom: 16px;
+      letter-spacing:1.4px;
+    }
+    .owner-photo img {
+      width:140px;
+      height:140px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      object-fit: cover;
+    }
+    .owner-text {
+      flex: 1;
+      min-width: 280px;
+      font-size: 1.1rem;
+      color: #2c3e50;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
     /* Footer */
     footer {
       background: #2c7a2c;
@@ -230,7 +274,20 @@
       margin-top: 50px;
     }
 
-    /* Responsive tweaks for smaller devices */
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      .owner-section {
+        flex-direction: column;
+        text-align: center;
+      }
+      .owner-photo, .owner-text {
+        min-width: 100%;
+      }
+      .owner-text {
+        margin-top: 15px;
+      }
+    }
+
     @media (max-width: 480px) {
       header h1 {
         font-size: 2rem;
@@ -267,9 +324,8 @@
     <section id="about-us" aria-label="About Us">
       <h2>About Us</h2>
       <p>
-        Our kirana store is located in Madaripur, Kanpur Dehat, where you can easily find all daily essentials. Whether it's pulses, rice, flour, oil, spices, biscuits, snacks, soap, shampoo, toothpaste, baby products, or all household items - everything under one roof!
+        Our kirana store is located in Madaripur, Kanpur Dehat, where you can easily find all daily essentials. Whether it's pulses, rice, flour, oil, spices, biscuits, snacks, soap, shampoo, toothpaste, baby products, or all household items - everything under one roof! We focus on providing customers with fresh products, reasonable prices, and home delivery (in local areas).
       </p>
-      <p>We focus on providing customers with fresh products, reasonable prices, and home delivery (in local areas).</p>
       <p>
         Follow us on Instagram: <a href="https://www.instagram.com/ashu___op___" target="_blank" rel="noopener noreferrer">@ashu___op___</a>
       </p>
@@ -327,11 +383,24 @@
         <button type="submit">Send Message</button>
       </form>
     </section>
+
+    <!-- Owner Section -->
+    <section class="owner-section" aria-label="Owner Message">
+      <div class="owner-photo">
+        <h3>OWNER</h3>
+        <img src="https://i.ibb.co/ymJc3dg3/1767166912346.jpg" alt="Owner Photo" />
+      </div>
+      <div class="owner-text">
+        <p>
+          Welcome to <strong>Ashu Diwakar Kirana Store</strong>, your trusted neighborhood grocery partner. We are committed to bringing you the freshest pulses, spices, and daily essentials at the most affordable prices. Our mission is to provide quality products and friendly service to every home in our community. Thank you for choosing us for your daily needs!
+        </p>
+      </div>
+    </section>
+
   </main>
 
   <footer>
     &copy; 2025 Ashu Diwakar Kirana Store. All rights reserved. | Designed by Ashu Diwakar | Powered by Infinite Moments
   </footer>
-
 </body>
 </html>
