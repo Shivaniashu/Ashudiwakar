@@ -274,6 +274,95 @@
       margin-top: 50px;
     }
 
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: black;
+    }
+    .step {
+      display: none;
+    }
+    .step.active {
+      display: block;
+    }
+    .checkout-form input, .checkout-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .checkout-form button {
+      background: linear-gradient(135deg, #4caf50, #2e7d32);
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
+      transition: background 0.3s;
+    }
+    .checkout-form button:hover {
+      background: linear-gradient(135deg, #2e7d32, #4caf50);
+    }
+    .payment-options {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .payment-options button {
+      width: 100%;
+      padding: 10px;
+      background: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .payment-options button:hover {
+      background: #e0e0e0;
+    }
+    .qr-section {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .qr-section img {
+      width: 200px;
+      height: 200px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
     /* Responsive tweaks */
     @media (max-width: 768px) {
       .owner-section {
@@ -340,7 +429,7 @@
           <img src="https://i.ibb.co/wNWmqYjc/48590fa7-626f-4310-bb73-0c74fd6f4d60.jpg" alt="Realme Buds 3" />
           <h3>Realme Buds 3</h3>
           <p>Wireless earbuds with great sound quality and battery life. Price: ₹889</p>
-          <button class="buy-btn" onclick="alert('Buy Now clicked for Realme Buds 3')">Buy Now</button>
+          <button class="buy-btn" onclick="openCheckout('Realme Buds 3', 889)">Buy Now</button>
         </div>
         <div class="product-card" tabindex="0">
           <img src="https://source.unsplash.com/300x200/?spices" alt="Spices" />
@@ -399,8 +488,14 @@
 
   </main>
 
-  <footer>
-    &copy; 2025 Ashu Diwakar Kirana Store. All rights reserved. | Designed by Ashu Diwakar | Powered by Infinite Moments
-  </footer>
-</body>
-</html>
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Checkout - <span id="productName"></span></h2>
+      
+      <!-- Step 1: Order Details -->
+      <div id="step1" class="step active">
+        <form class="checkout-form" onsubmit="nextStep(event)">
+          <label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1" required>
